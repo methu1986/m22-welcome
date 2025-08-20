@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M22 Square Software Solutions</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f9f9f9;
+      overflow-x: hidden;
+    }
+
+    /* Canvas for falling flowers */
+    #flowerCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* Header with background image */
+    header {
+      background: url("header-image.jpg") no-repeat center center/cover;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 3.8rem;
+      font-weight: bold;
+      padding: 20px 30px;
+      border-radius: 12px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.6),
+                   4px 4px 10px rgba(0,0,0,0.4);
+      animation: float3d 3s infinite ease-in-out;
+    }
+
+    @keyframes float3d {
+      0%   { transform: rotateX(0) rotateY(0); color: #ffdd55; }
+      50%  { transform: rotateX(15deg) rotateY(15deg); color: #55ff99; }
+      100% { transform: rotateX(0) rotateY(0); color: #5599ff; }
+    }
+
+    /* Navigation */
+    nav {
+      background: #222;
+      display: flex;
+      justify-content: center;
+      padding: 12px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 18px;
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+    nav a:hover {
+      color: #00aced;
+    }
+
+    /* Sections */
+    section {
+      padding: 40px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    /* Cards grid */
+    .services, .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .card h3 {
+      margin-top: 0;
+      color: #0078d7;
+    }
+
+    /* Contact */
+    .contact {
+      background: #0078d7;
+      color: white;
+      border-radius: 8px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Footer */
+    footer {
+      background: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Falling flowers canvas -->
+  <canvas id="flowerCanvas"></canvas>
+
+  <!-- Header -->
+  <header>
+    <h1>M22 Square Software Solutions</h1>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#services">Services</a>
+    <a href="#products">Products</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Services -->
+  <section id="services">
+    <h2>Our Services</h2>
+    <div class="services">
+      <div class="card"><h3>Web Design & Development</h3><p>Responsive, modern websites tailored to your business.</p></div>
+      <div class="card"><h3>Windows Desktop Apps</h3><p>Powerful and secure applications for your workflows.</p></div>
+      <div class="card"><h3>Android Mobile Apps</h3><p>Fast, user-friendly apps to engage customers.</p></div>
+      <div class="card"><h3>WhatsApp Automation</h3><p>Smart messaging workflows for alerts and marketing.</p></div>
+      <div class="card"><h3>Reports & Analytics</h3><p>Insights, dashboards, and reports your team can use.</p></div>
+      <div class="card"><h3>Maintenance & Support</h3><p>Reliable support with quick response times.</p></div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section id="products">
+    <h2>Featured Product</h2>
+    <div class="products">
+      <div class="card">
+        <h3>Shael's_Maa</h3>
+        <p>A complete school management software: attendance, hall tickets, progress reports, fees, expenditure, WhatsApp messaging, and more.</p>
+      </div>
+      <div class="card">
+        <h3>Why Choose Us?</h3>
+        <p>10+ years of experience • 100+ projects • 98% client satisfaction</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <h2>About Us</h2>
+    <p style="text-align:center; max-width:800px; margin:auto;">
+      M22 Square Software Solutions is a trusted technology company delivering secure, reliable, and user-friendly IT solutions. Our mission is to help businesses grow with efficient technology.
+    </p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact">
+      <h2>Contact Us</h2>
+      <p>📞 Phone: 08823-223677</p>
+      <p✉️ Email: info@m22square.com</p>
+      <p>Business Hours: 9:00 AM – 5:00 PM</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 M22 Square Software Solutions. All rights reserved.</p>
+  </footer>
+
+  <!-- Falling Flowers Script -->
+  <script>
+    const canvas = document.getElementById("flowerCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    const flowers = [];
+    const flowerEmoji = "🌸";
+
+    class Flower {
+      constructor(x, y, speed, size) {
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.size = size;
+      }
+
+      update() {
+        this.y += this.speed;
+        if (this.y > canvas.height) {
+          this.y = -this.size;
+          this.x = Math.random() * canvas.width;
+        }
+      }
+
+      draw() {
+        ctx.font = this.size + "px serif";
+        ctx.fillText(flowerEmoji, this.x, this.y);
+      }
+    }
+
+    for (let i = 0; i < 35; i++) {
+      let size = Math.random() * 30 + 20;
+      let x = Math.random() * canvas.width;
+      let y = Math.random() * canvas.height;
+      let speed = Math.random() * 2 + 1;
+      flowers.push(new Flower(x, y, speed, size));
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      flowers.forEach(flower => {
+        flower.update();
+        flower.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
