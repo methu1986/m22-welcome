@@ -14,17 +14,7 @@
       overflow-x: hidden;
     }
 
-    /* Canvas for falling flowers */
-    #flowerCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    /* Header with background image */
+    /* Header with falling flowers */
     header {
       background: url("header-image.jpg") no-repeat center center/cover;
       height: 320px;
@@ -34,6 +24,17 @@
       color: white;
       text-align: center;
       position: relative;
+      overflow: hidden; /* keep flowers inside header */
+    }
+
+    /* Canvas inside header */
+    #flowerCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
     header h1 {
@@ -43,13 +44,7 @@
       border-radius: 12px;
       text-shadow: 2px 2px 5px rgba(0,0,0,0.6),
                    4px 4px 10px rgba(0,0,0,0.4);
-      animation: float3d 3s infinite ease-in-out;
-    }
-
-    @keyframes float3d {
-      0%   { transform: rotateX(0) rotateY(0); color: #ffdd55; }
-      50%  { transform: rotateX(15deg) rotateY(15deg); color: #55ff99; }
-      100% { transform: rotateX(0) rotateY(0); color: #5599ff; }
+      color: #ffdd55; /* fixed 2D color */
     }
 
     /* Navigation */
@@ -120,11 +115,10 @@
   </style>
 </head>
 <body>
-  <!-- Falling flowers canvas -->
-  <canvas id="flowerCanvas"></canvas>
 
-  <!-- Header -->
+  <!-- Header with falling flowers -->
   <header>
+    <canvas id="flowerCanvas"></canvas>
     <h1>M22 Square Software Solutions</h1>
   </header>
 
@@ -153,10 +147,21 @@
   <section id="products">
     <h2>Featured Product</h2>
     <div class="products">
-      <div class="card">
-        <h3>Shael's_Maa</h3>
-        <p>A complete school management software: attendance, hall tickets, progress reports, fees, expenditure, WhatsApp messaging, and more.</p>
-      </div>
+   <div class="card">
+  <h3>Shael's_Maa</h3>
+  <p>
+    A complete school management software: attendance, hall tickets, progress reports,
+    fees, expenditure, WhatsApp messaging, and more.
+  </p>
+  <p>
+    <a href="https://shaelsmaa.rf.gd" target="_blank" 
+       style="display:inline-block; margin-top:10px; padding:10px 20px; 
+              background:#0078d7; color:white; border-radius:6px; text-decoration:none;">
+       Visit Website
+    </a>
+  </p>
+</div>
+
       <div class="card">
         <h3>Why Choose Us?</h3>
         <p>10+ years of experience • 100+ projects • 98% client satisfaction</p>
@@ -171,30 +176,107 @@
       M22 Square Software Solutions is a trusted technology company delivering secure, reliable, and user-friendly IT solutions. Our mission is to help businesses grow with efficient technology.
     </p>
   </section>
+</section>
+<!-- Project Registration -->
+<section id="register">
+  <h2>Project Registration</h2>
+  <p style="text-align:center; max-width:800px; margin:auto; margin-bottom:20px;">
+    Submit your project specifications via our website, and our technical team will reach out for a detailed consultation.
+  </p>
+  <div style="max-width:600px; margin:auto; background:#fff; padding:25px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+    <form id="projectForm">
+      <label for="name" style="font-weight:bold;">Your Name</label><br>
+      <input type="text" id="name" name="name" required style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:6px;"><br>
+
+      <label for="email" style="font-weight:bold;">Email</label><br>
+      <input type="email" id="email" name="email" required style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:6px;"><br>
+      <small id="emailError" style="color:red; display:none;">Please enter a valid email address.</small><br>
+
+      <label for="phone" style="font-weight:bold;">Phone</label><br>
+      <input type="tel" id="phone" name="phone" required style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:6px;"><br>
+
+      <label for="details" style="font-weight:bold;">Project Specifications</label><br>
+      <textarea id="details" name="details" rows="5" required style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:6px;"></textarea><br>
+
+      <button type="submit" style="background:#0078d7; color:white; padding:12px 25px; border:none; border-radius:6px; font-size:1rem; cursor:pointer;">
+        Submit
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- Email Validation Script -->
+<script>
+  const emailInput = document.getElementById("email");
+  const emailError = document.getElementById("emailError");
+
+  // Show error when leaving the email textbox
+  emailInput.addEventListener("blur", function () {
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+    if (!emailInput.value.match(emailPattern)) {
+      emailError.style.display = "inline";
+      emailInput.style.border = "1px solid red";
+    } else {
+      emailError.style.display = "none";
+      emailInput.style.border = "1px solid #ccc";
+    }
+  });
+
+  // Prevent submit if still invalid
+  document.getElementById("projectForm").addEventListener("submit", function (e) {
+    if (emailError.style.display === "inline") {
+      e.preventDefault();
+      alert("Please fix errors before submitting.");
+    } else {
+      alert("Form submitted successfully!");
+    }
+  });
+</script>
+
+
+<!-- Email Validation Script -->
+<script>
+  const form = document.getElementById("projectForm");
+  const emailInput = document.getElementById("email");
+  const emailError = document.getElementById("emailError");
+
+  form.addEventListener("submit", function (e) {
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if (!emailInput.value.match(emailPattern)) {
+      e.preventDefault(); // stop form submission
+      emailError.style.display = "inline";
+      emailInput.style.border = "1px solid red";
+    } else {
+      emailError.style.display = "none";
+      emailInput.style.border = "1px solid #ccc";
+      alert("Form submitted successfully!");
+    }
+  });
+</script>
 
   <!-- Contact -->
   <section id="contact">
     <div class="contact">
       <h2>Contact Us</h2>
       <p>📞 Phone: 08823-223677</p>
-      <p✉️ Email: info@m22square.com</p>
-      <p>Business Hours: 9:00 AM – 5:00 PM</p>
+        <p>Business Hours: 9:00 AM – 5:00 PM</p>
     </div>
-  </section>
+  
 
   <!-- Footer -->
   <footer>
     <p>© 2025 M22 Square Software Solutions. All rights reserved.</p>
   </footer>
 
-  <!-- Falling Flowers Script -->
+  <!-- Falling Flowers Script (2D only in header) -->
   <script>
     const canvas = document.getElementById("flowerCanvas");
     const ctx = canvas.getContext("2d");
+    const header = document.querySelector("header");
 
     function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = header.clientWidth;
+      canvas.height = header.clientHeight;
     }
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
@@ -209,7 +291,6 @@
         this.speed = speed;
         this.size = size;
       }
-
       update() {
         this.y += this.speed;
         if (this.y > canvas.height) {
@@ -217,18 +298,17 @@
           this.x = Math.random() * canvas.width;
         }
       }
-
       draw() {
         ctx.font = this.size + "px serif";
         ctx.fillText(flowerEmoji, this.x, this.y);
       }
     }
 
-    for (let i = 0; i < 35; i++) {
-      let size = Math.random() * 30 + 20;
+    for (let i = 0; i < 25; i++) {
+      let size = Math.random() * 24 + 16;
       let x = Math.random() * canvas.width;
       let y = Math.random() * canvas.height;
-      let speed = Math.random() * 2 + 1;
+      let speed = Math.random() * 1.5 + 0.5;
       flowers.push(new Flower(x, y, speed, size));
     }
 
@@ -240,7 +320,6 @@
       });
       requestAnimationFrame(animate);
     }
-
     animate();
   </script>
 </body>
